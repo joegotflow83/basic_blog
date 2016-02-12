@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ single_post.title }}{% endblock title %}
+
+{% block content %}
+	<h2>{{ single_post.title }}</h2>
+	<em>{{ single_post.created_at }}</em>
+	{{ single_post.content | linebreaks }}
+	<br/>
+	<p>Want to go back? Click <a href="/blog/">here</a></p>
+{% endblock %}

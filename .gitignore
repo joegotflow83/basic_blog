@@ -1,0 +1,3 @@
+bloggy_env/
+*.pyc
+bloggy_project/bloggy_project/settings.py
