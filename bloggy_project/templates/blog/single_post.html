@@ -3,9 +3,16 @@
 {% block title %}{{ single_post.title }}{% endblock title %}
 
 {% block content %}
-	<h2>{{ single_post.title }}</h2>
-	<em>{{ single_post.created_at }}</em>
-	{{ single_post.content | linebreaks }}
-	<br/>
-	<p>Want to go back? Click <a href="/blog/">here</a></p>
+	<h2>{{ single_post.title }}</h2> <ul>
+	<p><em>{{ single_post.created_at }}</em></p> <p>{{ single_post.content }}</p>
+	<br>
+	<p>
+		{% if single_post.image %}
+			<img src="/media/{{ single_post.image }}"> 
+		{% endif %}
+	</p>
+	<p>Tag: {{ single_post.tag }}</p>
+	<p>Views: {{ single_post.views }}</p>
+	</ul>
+	<p>Had enough? Return <a href="/blog">home</a>.</p><br/>
 {% endblock %}
