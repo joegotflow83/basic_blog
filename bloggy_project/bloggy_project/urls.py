@@ -17,10 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from .settings import MEDIA_ROOT
 
+from blog import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^register/', views.Register.as_view(), name='register'),
+    url(r'^$', views.AuthLogin.as_view(), name='login'),
     url(r'^blog/', include('blog.urls')),
     url(r'^media/(?P<path>.*)/$', 'django.views.static.serve',
     	{'document_root': MEDIA_ROOT}),
+    url(r'^logout/', views.AuthLogout.as_view(), name='logout'),
 ]

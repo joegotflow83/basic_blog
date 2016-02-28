@@ -1,15 +1,66 @@
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
+from django.views.generic.edit import FormView
+from django.views.generic import View
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, UserForm
 
 
 def encode_url(url):
 	"""Clean up the url for more readable output"""
 	return url.replace(' ', '_')
 
-def index(request):
+class Register(FormView):
+
+
+	template_name = 'blog/register.html'
+	form_class = UserForm
+	fields = ['username', 'email', 'password1', 'password2',
+			  'first_name', 'last_name']
+	success_url = "/blog/"
+
+	def form_valid(self, form):
+		"""Validate the form"""
+		user = User.objects.create_user(
+								   form.cleaned_data['password1'],
+								   form.cleaned_data['password2'])
+		user.save()
+		return super().form_valid(form)
+
+
+class AuthLogin(View):
+
+
+	def post(self, request):
+		"""Verify user credentials and log in"""
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect(blog)
+		else:
+			return HttpResponse('Invalid Credentials')
+
+	def get(self, request):
+		"""Display the log in form"""
+		return render(request, 'blog/login.html')
+
+
+class AuthLogout(View):
+
+
+	def get(self, request):
+		"""Log a user out"""
+		logout(request)
+		return redirect('/')
+
+
+def blog(request):
 	"""Create home page and display posts in order of date creation"""
 	latest_posts = Post.objects.all().order_by('-created_at')
 	popular_posts = Post.objects.all().order_by('-views')[:5]
@@ -34,7 +85,7 @@ def add_post(request):
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
 			form.save(commit=True)
-			return redirect(index)
+			return redirect(blog)
 		else:
 			form.errors
 	form = PostForm()

@@ -21,7 +21,7 @@
 		    <ul>
 		    {% for post in latest_posts %}
 		      <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
-		      <em>{{ post.created_at }}</em>
+		      <em>{{ post.created_at }} by {{ post.user.username }}</em>
 		      {{ post.content | linebreaks}}
 		    {% endfor %}
 		    </ul>
