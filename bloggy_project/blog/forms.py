@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
 
 
 		model = Post
-		fields = ['title', 'content', 'tag', 'image']
+		fields = ['title', 'content', 'tag']
 
 
 class UserForm(UserCreationForm):
@@ -25,7 +25,7 @@ class UserForm(UserCreationForm):
 
 
 		model = User
-		fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', ]
+		fields = ['username', 'email', 'password1', 'password2']
 
 		def save(self, commit=True):
 			"""Override save method to save data to User model"""

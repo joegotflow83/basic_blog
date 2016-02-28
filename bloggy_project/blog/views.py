@@ -21,13 +21,13 @@ class Register(FormView):
 	form_class = UserForm
 	fields = ['username', 'email', 'password1', 'password2',
 			  'first_name', 'last_name']
-	success_url = "/blog/"
+	success_url = "/"
 
 	def form_valid(self, form):
 		"""Validate the form"""
-		user = User.objects.create_user(
-								   form.cleaned_data['password1'],
-								   form.cleaned_data['password2'])
+		user = User.objects.create_user(form.cleaned_data['username'],
+										form.cleaned_data['email'],
+								   		form.cleaned_data['password1'])
 		user.save()
 		return super().form_valid(form)
 

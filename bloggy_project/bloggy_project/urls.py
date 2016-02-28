@@ -25,7 +25,5 @@ urlpatterns = [
     url(r'^register/', views.Register.as_view(), name='register'),
     url(r'^$', views.AuthLogin.as_view(), name='login'),
     url(r'^blog/', include('blog.urls')),
-    url(r'^media/(?P<path>.*)/$', 'django.views.static.serve',
-    	{'document_root': MEDIA_ROOT}),
     url(r'^logout/', views.AuthLogout.as_view(), name='logout'),
 ]
